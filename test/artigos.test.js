@@ -92,3 +92,14 @@ test('retorna HTTP 422 para URL ausente ou inválida', async (context) => {
     assert.match((await response.json()).erro, /URL/);
   }
 });
+
+test('retorna um erro JSON 404 para recursos inexistentes', async (context) => {
+  const parser = { parseURL: async () => ({ title: 'Fonte', items: [] }) };
+  const { server, baseUrl } = await startTestServer(parser);
+  context.after(() => new Promise((resolve) => server.close(resolve)));
+
+  const response = await fetch(`${baseUrl}/recurso-inexistente`);
+
+  assert.equal(response.status, 404);
+  assert.deepEqual(await response.json(), { erro: 'Recurso não encontrado.' });
+});

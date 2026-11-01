@@ -14,6 +14,9 @@ function createApp({ database, parser } = {}) {
 
   app.use(express.json());
   app.use(createApiRouter(articlesRepository, feedService));
+  app.use((request, response) => {
+    response.status(404).json({ erro: 'Recurso não encontrado.' });
+  });
   app.use((error, request, response, next) => {
     if (error.type === 'entity.parse.failed') {
       return response.status(422).json({ erro: 'O corpo da requisição deve ser um JSON válido.' });
