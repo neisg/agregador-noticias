@@ -40,6 +40,7 @@ src/
   server.js
 test/
   artigos.test.js
+  database-persistence.test.js
 data/                 # banco local, criado na inicialização
 ```
 
